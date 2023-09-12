@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_close" />
+
+    <TextView
+        android:id="@+id/tv_title_autonomy"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/calular_autonomia"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_close" />
+
+
+    <EditText
+        android:id="@+id/et_preco_kwh"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Preço kWh"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_autonomy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"
+        />
+
+    <EditText
+        android:id="@+id/et_km_percorrido"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Km Percorrido"
+        android:ems="10"
+        app:layout_constraintTop_toBottomOf="@id/et_preco_kwh"
+        app:layout_constraintStart_toStartOf="@id/et_preco_kwh"
+        app:layout_constraintEnd_toEndOf="@id/et_preco_kwh"
+        />
+
+    <Button
+        android:id="@+id/btn_calcular"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Calcular"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/et_km_percorrido"
+        app:layout_constraintStart_toStartOf="@id/et_preco_kwh"
+        app:layout_constraintEnd_toEndOf="@id/et_preco_kwh"
+        />
+
+    <TextView
+        android:id="@+id/tv_autonomia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btn_calcular"
+        app:layout_constraintStart_toStartOf="@id/et_preco_kwh"
+        android:text="Autonomia: "
+        android:layout_marginTop="8dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_autonomia_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_autonomia"
+        app:layout_constraintStart_toEndOf="@id/tv_autonomia"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">EletricCarAppDio</string>
+    <string name="title">Eletric Car</string>
+    <string name="cars">Carros</string>
+    <string name="favorites">Favoritos</string>
+    <string name="price">Preço</string>
+    <string name="battery">Bateria</string>
+    <string name="potency">Potência</string>
+    <string name="recharge">Recarga</string>
+    <string name="calculate">Calcular</string>
+    <string name="calular_autonomia">Calcular autonomia</string>
+</resources>
