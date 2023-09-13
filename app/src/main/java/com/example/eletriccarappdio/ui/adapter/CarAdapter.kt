@@ -1,8 +1,10 @@
 package com.example.eletriccarappdio.ui.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eletriccarappdio.R
@@ -17,10 +19,10 @@ class CarAdapter(private val carros: List<Car>): RecyclerView.Adapter<CarAdapter
     }
     //Pega o conteudo da view e troca pela informacao de item de uma lista
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.price.text = carros[position].price
-        holder.battery.text = carros[position].battery
-        holder.recharge.text = carros[position].recharge
-        holder.potency.text = carros[position].potency
+        holder.price.text = carros[position].preco
+        holder.battery.text = carros[position].bateria
+        holder.recharge.text = carros[position].recarga
+        holder.potency.text = carros[position].potencia
     }
 
     //Pega a quantidade de carros da lista
@@ -31,7 +33,9 @@ class CarAdapter(private val carros: List<Car>): RecyclerView.Adapter<CarAdapter
         val battery: TextView
         val recharge: TextView
         val potency: TextView
+        val urlPhoto: ImageView
         init {
+            urlPhoto = view.findViewById(R.id.iv_car)
             price = view.findViewById(R.id.tv_price_value)
             battery = view.findViewById(R.id.tv_battery_value)
             recharge = view.findViewById(R.id.tv_recharge_value)

@@ -9,4 +9,6 @@
     <string name="recharge">Recarga</string>
     <string name="calculate">Calcular</string>
     <string name="calular_autonomia">Calcular autonomia</string>
+    <string name="no_internet">Ops, não há conexão com a internet :(</string>
+    <string name="response_error">Algo deu errado, por favor tente novamente mais tarde</string>
 </resources>
