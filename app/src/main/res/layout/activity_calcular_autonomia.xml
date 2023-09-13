@@ -67,6 +67,7 @@
         android:id="@+id/tv_autonomia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintTop_toBottomOf="@id/btn_calcular"
         app:layout_constraintStart_toStartOf="@id/et_preco_kwh"
         android:text="Autonomia: "
@@ -75,6 +76,7 @@
 
     <TextView
         android:id="@+id/tv_autonomia_value"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/tv_autonomia"

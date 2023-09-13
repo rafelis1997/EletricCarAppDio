@@ -1,6 +1,6 @@
 package com.example.eletriccarappdio.ui.adapter
 
-import android.net.Uri
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eletriccarappdio.R
 import com.example.eletriccarappdio.domain.Car
+import com.squareup.picasso.Picasso
+
+
 
 class CarAdapter(private val carros: List<Car>): RecyclerView.Adapter<CarAdapter.ViewHolder>() {
 
@@ -23,6 +26,7 @@ class CarAdapter(private val carros: List<Car>): RecyclerView.Adapter<CarAdapter
         holder.battery.text = carros[position].bateria
         holder.recharge.text = carros[position].recarga
         holder.potency.text = carros[position].potencia
+        Picasso.get().load(carros[position].urlPhoto).into(holder.urlPhoto);
     }
 
     //Pega a quantidade de carros da lista
