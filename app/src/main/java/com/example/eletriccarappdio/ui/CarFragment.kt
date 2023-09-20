@@ -1,5 +1,6 @@
 package com.example.eletriccarappdio.ui
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -21,6 +22,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eletriccarappdio.R
 import com.example.eletriccarappdio.data.CarFactory
 import com.example.eletriccarappdio.data.CarsApi
+import com.example.eletriccarappdio.data.local.CarRepository
+import com.example.eletriccarappdio.data.local.CarsContract
+import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_BATERIA
+import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_POTENCIA
+import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_PRECO
+import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_RECARGA
+import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_URL_PHOTO
+import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.TABLE_NAME
+import com.example.eletriccarappdio.data.local.CarsDbHelper
 import com.example.eletriccarappdio.domain.Car
 import com.example.eletriccarappdio.ui.adapter.CarAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -127,7 +137,9 @@ class CarFragment: Fragment() {
             adapter = carAdapter
             isVisible = true
         }
-
+        carAdapter.carItemListener = { car ->
+            val isSaved = CarRepository(requireContext()).saveIfNotExist(car)
+        }
     }
 
     fun setupListeners() {
@@ -187,11 +199,11 @@ class CarFragment: Fragment() {
                         potencia = jsonArray.getJSONObject(i).getString("potencia"),
                         urlPhoto = jsonArray.getJSONObject(i).getString("urlPhoto"),
                         recarga = jsonArray.getJSONObject(i).getString("recarga"),
+                        isFavorite = false,
                     )
 
                     carrosArray.add(model)
                 }
-
                 progress.isVisible = false
                // setupList()
             } catch(ex: Exception) {
@@ -232,4 +244,6 @@ class CarFragment: Fragment() {
             return " "
         }
     }
+
+
 }

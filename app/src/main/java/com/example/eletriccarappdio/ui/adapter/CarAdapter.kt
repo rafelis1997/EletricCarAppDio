@@ -13,7 +13,9 @@ import com.squareup.picasso.Picasso
 
 
 
-class CarAdapter(private val carros: List<Car>): RecyclerView.Adapter<CarAdapter.ViewHolder>() {
+class CarAdapter(private val carros: List<Car>, private val isFavoriteScreen: Boolean = false):
+    RecyclerView.Adapter<CarAdapter.ViewHolder>() {
+    var carItemListener: (Car) -> Unit = {}
 
     //Cria uma nova View
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,6 +29,28 @@ class CarAdapter(private val carros: List<Car>): RecyclerView.Adapter<CarAdapter
         holder.recharge.text = carros[position].recarga
         holder.potency.text = carros[position].potencia
         Picasso.get().load(carros[position].urlPhoto).into(holder.urlPhoto);
+
+        if(isFavoriteScreen) {
+            holder.favorite.setImageResource(R.drawable.ic_star_selected)
+        }
+
+        holder.favorite.setOnClickListener {
+            val car = carros[position]
+            carItemListener(car)
+            setupFavorite(car, holder)
+        }
+    }
+
+    private fun setupFavorite(
+        car: Car,
+        holder: ViewHolder
+    ) {
+        car.isFavorite = !car.isFavorite
+
+        if (car.isFavorite)
+            holder.favorite.setImageResource(R.drawable.ic_star_selected)
+        else
+            holder.favorite.setImageResource(R.drawable.ic_star)
     }
 
     //Pega a quantidade de carros da lista
@@ -38,12 +62,14 @@ class CarAdapter(private val carros: List<Car>): RecyclerView.Adapter<CarAdapter
         val recharge: TextView
         val potency: TextView
         val urlPhoto: ImageView
+        val favorite: ImageView
         init {
             urlPhoto = view.findViewById(R.id.iv_car)
             price = view.findViewById(R.id.tv_price_value)
             battery = view.findViewById(R.id.tv_battery_value)
             recharge = view.findViewById(R.id.tv_recharge_value)
             potency = view.findViewById(R.id.tv_potency_value)
+            favorite = view.findViewById(R.id.iv_favorite)
         }
     }
 
