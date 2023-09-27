@@ -1,8 +1,6 @@
 package com.example.eletriccarappdio.ui
 
-import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.AsyncTask
@@ -12,50 +10,31 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.example.eletriccarappdio.R
-import com.example.eletriccarappdio.data.CarFactory
 import com.example.eletriccarappdio.data.CarsApi
 import com.example.eletriccarappdio.data.local.CarRepository
-import com.example.eletriccarappdio.data.local.CarsContract
-import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_BATERIA
-import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_POTENCIA
-import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_PRECO
-import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_RECARGA
-import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.COLUMN_NAME_URL_PHOTO
-import com.example.eletriccarappdio.data.local.CarsContract.CarEntry.TABLE_NAME
-import com.example.eletriccarappdio.data.local.CarsDbHelper
+
 import com.example.eletriccarappdio.domain.Car
 import com.example.eletriccarappdio.ui.adapter.CarAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.eletriccarappdio.databinding.CarFragmentBinding
 import org.json.JSONArray
-import org.json.JSONObject
 import org.json.JSONTokener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 class CarFragment: Fragment() {
-    lateinit var btnCalcular: FloatingActionButton
-    lateinit var listaCarros: RecyclerView
-    lateinit var progress: ProgressBar
-    lateinit var noInternetImage: ImageView
-    lateinit var noInternetText: TextView
+
+    private var _binding: CarFragmentBinding? = null
+    private val binding get() = _binding!!
+
     lateinit var carsApi: CarsApi
 
     var carrosArray: ArrayList<Car> = ArrayList()
@@ -65,14 +44,13 @@ class CarFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.car_fragment, container, false)
+        _binding = CarFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView(view)
         setupRetrofit()
-        setupListeners()
     }
 
     override fun onResume() {
@@ -95,12 +73,12 @@ class CarFragment: Fragment() {
     }
 
     fun getAllCars() {
-        noInternetImage.isVisible = false
-        noInternetText.isVisible = false
+        binding.ivEmptyState.isVisible = false
+        binding.tvNoInternet.isVisible = false
         carsApi.gatAllCars().enqueue(object : Callback<List<Car>> {
             override fun onResponse(call: Call<List<Car>>, response: Response<List<Car>>) {
                 if(response.isSuccessful) {
-                    progress.isVisible = false
+                    binding.pbLoader.isVisible = false
                     response.body()?.let {
                         setupList(it)
                     }
@@ -117,23 +95,16 @@ class CarFragment: Fragment() {
     }
 
     fun emptyState() {
-        progress.isVisible = false
-        listaCarros.isVisible = false
-        noInternetImage.isVisible = true
-        noInternetText.isVisible = true
+        binding.rvCarList.isVisible = false
+        binding.pbLoader.isVisible = false
+        binding.ivEmptyState.isVisible = true
+        binding.tvNoInternet.isVisible = true
     }
 
-    fun setupView(view: View) {
-        btnCalcular = view.findViewById(R.id.fab_calculate)
-        listaCarros = view.findViewById(R.id.rv_car_list)
-        progress = view.findViewById(R.id.pb_loader)
-        noInternetImage = view.findViewById(R.id.iv_empty_state)
-        noInternetText = view.findViewById(R.id.tv_no_internet)
-    }
 
     fun setupList(lista: List<Car>) {
         val carAdapter = CarAdapter(lista)
-        listaCarros.apply {
+        binding.rvCarList.apply {
             adapter = carAdapter
             isVisible = true
         }
@@ -142,11 +113,7 @@ class CarFragment: Fragment() {
         }
     }
 
-    fun setupListeners() {
-        btnCalcular.setOnClickListener {
-            startActivity(Intent(context, CalcularAutonomiaActivity::class.java))
-        }
-    }
+
 
     fun callService() {
         val urlBase = "https://igorbag.github.io/cars-api/cars.json"
@@ -180,9 +147,9 @@ class CarFragment: Fragment() {
     inner class MyTask: AsyncTask<String, String, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
-            noInternetImage.isVisible = false
-            noInternetText.isVisible = false
-            progress.isVisible = true
+            binding.pbLoader.isVisible = true
+            binding.ivEmptyState.isVisible = false
+            binding.tvNoInternet.isVisible = false
             Log.d("Mytask", "Iniciando...")
         }
 
@@ -204,7 +171,7 @@ class CarFragment: Fragment() {
 
                     carrosArray.add(model)
                 }
-                progress.isVisible = false
+                binding.pbLoader.isVisible = false
                // setupList()
             } catch(ex: Exception) {
                 Log.e("Erro", ex.message.toString())
